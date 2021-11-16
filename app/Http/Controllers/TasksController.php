@@ -50,12 +50,13 @@ class TasksController extends Controller
             'content' => 'required',
         ]);
         
-        $tasks = new Task;
-        $tasks->status = $request->status;
-        $tasks->content = $request->content;
-        $tasks->save();
+        $request->user()->tasks()->create([
+            'status' => $request->status,
+            'content' => $request->content,
+        ]);
 
-        return redirect('/');
+        return redirect('/tasks');
+        
     }
 
     /**
@@ -108,7 +109,7 @@ class TasksController extends Controller
         $tasks->content = $request->content;
         $tasks->save();
 
-        return redirect('/');
+        return redirect('/tasks');
     }
 
     /**
@@ -122,6 +123,6 @@ class TasksController extends Controller
         $tasks = Task::findOrFail($id);
         $tasks->delete();
 
-        return redirect('/');
+        return redirect('/tasks');
     }
 }
